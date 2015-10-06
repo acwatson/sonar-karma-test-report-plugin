@@ -23,7 +23,7 @@ along with SonarQube Karma Test Reporting Plugin.  If not, see <http://www.gnu.o
   <groupId>com.github.acwatson</groupId>
   <artifactId>sonar-karma-test-report-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>1.0.0.0</version>
+  <version>1.0.0.1-SNAPSHOT</version>
   <url>https://github.com/acwatson/sonar-karma-test-report-plugin/blob/master/README.md</url>
   
   <properties>
@@ -152,7 +152,7 @@ along with SonarQube Karma Test Reporting Plugin.  If not, see <http://www.gnu.o
     <url>https://github.com/acwatson/sonar-karma-test-report-plugin</url>
     <connection>scm:git:git@github.com:acwatson/sonar-karma-test-report-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:acwatson/sonar-karma-test-report-plugin.git</developerConnection>   
-    <tag>sonar-karma-test-report-plugin-1.0.0.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
