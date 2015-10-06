@@ -23,7 +23,7 @@ along with SonarQube Karma Test Reporting Plugin.  If not, see <http://www.gnu.o
   <groupId>com.github.acwatson</groupId>
   <artifactId>sonar-karma-test-report-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>1.0.0.2-SNAPSHOT</version>
+  <version>1.0.0.2</version>
   <url>https://github.com/acwatson/sonar-karma-test-report-plugin/blob/master/README.md</url>
   <name>JavaScript Karma Test Report :: Sonar Plugin</name>
   <description>This is the SonarQube Karma JUnit Reporting plugin. It was created to facilitate publishing 
@@ -155,7 +155,7 @@ along with SonarQube Karma Test Reporting Plugin.  If not, see <http://www.gnu.o
     <url>https://github.com/acwatson/sonar-karma-test-report-plugin</url>
     <connection>scm:git:git@github.com:acwatson/sonar-karma-test-report-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:acwatson/sonar-karma-test-report-plugin.git</developerConnection>   
-    <tag>HEAD</tag>
+    <tag>sonar-karma-test-report-plugin-1.0.0.2</tag>
   </scm>
 
   <distributionManagement>
