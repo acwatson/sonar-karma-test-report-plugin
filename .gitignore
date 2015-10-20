@@ -3,3 +3,4 @@ target
 .project
 .settings
 LOCAL_ONLY
+.DS_Store

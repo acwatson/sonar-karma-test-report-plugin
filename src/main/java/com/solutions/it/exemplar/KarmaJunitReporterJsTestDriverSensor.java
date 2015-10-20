@@ -45,13 +45,14 @@ import org.sonar.plugins.javascript.unittest.surefireparser.AbstractSurefirePars
  */
 public class KarmaJunitReporterJsTestDriverSensor implements Sensor, Extension {
 
+  private static final Logger LOG = LoggerFactory.getLogger(KarmaJunitReporterJsTestDriverSensor.class);
+  private static final String JS_EXTENSION = ".js";
+
   protected FileSystem fileSystem;
   protected Settings settings;
   private final FilePredicate mainFilePredicate;
   private final FilePredicate testFilePredicate;
   private SuiteUtil suiteUtil;
-
-  private static final Logger LOG = LoggerFactory.getLogger(KarmaJunitReporterJsTestDriverSensor.class);
 
   public KarmaJunitReporterJsTestDriverSensor(final FileSystem fileSystem, final Settings settings) {
     this.fileSystem = fileSystem;
@@ -100,10 +101,17 @@ public class KarmaJunitReporterJsTestDriverSensor implements Sensor, Extension {
       @Override
       protected Resource getUnitTestResource(final String classKey) {
 
-        String simpleClassName = getSimpleSureFireClassName(classKey);
+        String simpleClassName = null;
+
+        if (classKey.endsWith(JS_EXTENSION)) {
+          simpleClassName = classKey;
+        } else {
+          simpleClassName = getSimpleSureFireClassName(classKey);
+        }
+
         if (simpleClassName == null || simpleClassName.length() == 0 || !suiteToFile.containsKey(simpleClassName)) {
-          LOG.warn("Test result will not be saved for test class \"{}\", because SonarQube associated resource has not been found in suite-to-file map.",
-              classKey);
+          LOG.warn("Test result will not be saved for test class \"{}\", because SonarQube associated resource has not been found in suite-to-file map using key \"{}\".",
+              classKey, simpleClassName);
           return null;
         }
 
@@ -128,12 +136,29 @@ public class KarmaJunitReporterJsTestDriverSensor implements Sensor, Extension {
     Map<String,String> suiteToFile = new HashMap<String,String>();
     FilePredicate predicate = fileSystem.predicates().and(testFilePredicate);
 
+    String testDirPrefix = null;
+    if (StringUtils.isNotEmpty(settings.getString("sonar.tests"))) {
+      testDirPrefix = new StringBuilder().append(settings.getString("sonar.tests")).append(File.separatorChar).toString();
+    }
+    LOG.debug("test directory prefix is " + testDirPrefix);
+
     Iterator<InputFile> fileIterator = fileSystem.inputFiles(predicate).iterator();
     while (fileIterator.hasNext()) {
       InputFile inputFile = fileIterator.next();
       LOG.debug("Attempting to determine suite name from \"{}\"", inputFile.relativePath());
 
-      String suiteName = suiteUtil.getSuiteName(inputFile.file());
+      String suiteName = null;
+      if (inputFile.relativePath().endsWith(JS_EXTENSION)) {
+        suiteName = inputFile.relativePath();
+
+        if (testDirPrefix != null && suiteName.startsWith(testDirPrefix)) {
+          suiteName = suiteName.substring(testDirPrefix.length());
+          LOG.debug("Removed \"{}\" test directory prefix from suiteName", testDirPrefix);
+        }
+
+      } else {
+        suiteName = suiteUtil.getSuiteName(inputFile.file());
+      }
 
       if (suiteName != null && suiteName.length() > 0) {
         suiteToFile.put(suiteName, inputFile.relativePath());

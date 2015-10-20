@@ -8,7 +8,7 @@ test reports created using the karma-junit-reporter to SonarQube.
 
 ## Download
 
-The latest release of this plugin can be downloaded from https://oss.sonatype.org/content/groups/public/com/github/acwatson/sonar-karma-test-report-plugin/1.0.0.2/sonar-karma-test-report-plugin-1.0.0.2.jar
+The latest release of this plugin can be downloaded from https://oss.sonatype.org/content/groups/public/com/github/acwatson/sonar-karma-test-report-plugin/1.0.0.3/sonar-karma-test-report-plugin-1.0.0.3.jar
 
 ## Why Was This Plugin Created?
 
