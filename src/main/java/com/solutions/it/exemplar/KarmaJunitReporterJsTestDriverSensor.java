@@ -133,7 +133,7 @@ public class KarmaJunitReporterJsTestDriverSensor implements Sensor, Extension {
 
   private Map<String,String> getTestSuiteToFileNameMapping() {
 
-    Map<String,String> suiteToFile = new HashMap<String,String>();
+    Map<String,String> keyToFile = new HashMap<String,String>();
     FilePredicate predicate = fileSystem.predicates().and(testFilePredicate);
 
     String testDirPrefix = null;
@@ -147,28 +147,24 @@ public class KarmaJunitReporterJsTestDriverSensor implements Sensor, Extension {
       InputFile inputFile = fileIterator.next();
       LOG.debug("Attempting to determine suite name from \"{}\"", inputFile.relativePath());
 
-      String suiteName = null;
-      if (inputFile.relativePath().endsWith(JS_EXTENSION)) {
-        suiteName = inputFile.relativePath();
-
-        if (testDirPrefix != null && suiteName.startsWith(testDirPrefix)) {
-          suiteName = suiteName.substring(testDirPrefix.length());
-          LOG.debug("Removed \"{}\" test directory prefix from suiteName", testDirPrefix);
-        }
-
-      } else {
-        suiteName = suiteUtil.getSuiteName(inputFile.file());
+      String relativePathKey = inputFile.relativePath();
+      if (testDirPrefix != null && relativePathKey.startsWith(testDirPrefix)) {
+        relativePathKey = relativePathKey.substring(testDirPrefix.length());
+        LOG.debug("Removed \"{}\" test directory prefix from relativePathKey", testDirPrefix);
       }
+      keyToFile.put(relativePathKey, inputFile.relativePath());
+      LOG.debug("Found test file: \"{}\" with relativePathKey \"{}\"", inputFile.relativePath(), relativePathKey);
 
+      String suiteName = suiteUtil.getSuiteName(inputFile.file());
       if (suiteName != null && suiteName.length() > 0) {
-        suiteToFile.put(suiteName, inputFile.relativePath());
+        keyToFile.put(suiteName, inputFile.relativePath());
         LOG.debug("Found test file: \"{}\" with suite name \"{}\"", inputFile.relativePath(), suiteName);
       } else {
         LOG.warn("Suite name could not be determined for \"{}\"", inputFile.relativePath());
       }
     }
 
-    return suiteToFile;
+    return keyToFile;
   }
 
   /**
