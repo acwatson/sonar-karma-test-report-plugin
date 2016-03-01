@@ -59,9 +59,8 @@ public class SuiteUtil {
     try {
 
       String line = br.readLine();
-      int maxLineSearch = 25;
 
-      for (int i = 0; i < maxLineSearch; i++) {
+      while(line != null){
 
         String suiteName = getSuiteName(line);
         if (suiteName != null) {
