@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SuiteUtil {
 
-  private static final String SUITE_REGEX = "^(describe\\((\\'|\\\")(.*)(\\'|\\\").*$)";
+  private static final String SUITE_REGEX = "^(describe\\((\\'|\\\"|\\`)(.*)(\\'|\\\"|\\`).*$)";
   private static final Pattern SUITE_PATTERN = Pattern.compile(SUITE_REGEX);
   private static final Logger LOG = LoggerFactory.getLogger(SuiteUtil.class);
 
